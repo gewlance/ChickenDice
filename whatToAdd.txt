@@ -1,0 +1,5 @@
+Pot.py needs to be extended to hold everyones balance
+
+Pot needs to be reset and set a the end and beginning of each round
+
+main.py needs to have continuePlaying fully functional

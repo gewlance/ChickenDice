@@ -1,5 +1,6 @@
 import random
 from BackGround import Pot
+from BackGround import Players
 
 RoundCount = 1
 allTheSame = True
@@ -36,19 +37,18 @@ def boosted():
         total += tossResults[i]
     if total//2 == 1:
         OddsBoosted == True
-        print("Odds Boosted")
+        print("\nOdds Boosted")
     else:
         EvensBoosted == True
-        print("Evens Boosted")
+        print("\nEvens Boosted")
         
 def firstToss():
-    tossFor(3)
+    x = Players.getPlayerCount()
+    x -= 1
+    tossFor(x)
     scan()
-    global RoundCount 
-     
     if allTheSame == False:
         boosted()
-        #print(f'pot size is... {Pot.StartPot(RoundCount)}')
     else:
         preGameToss()
 
@@ -56,9 +56,10 @@ def preGameToss():
     global tossResults 
     tossResults = []
     while allTheSame == True:
-        tossFor(4)
+        x = Players.getPlayerCount()
+        tossFor(x)
         global RoundCount 
         RoundCount += 1
         scan()
-    print(f"round count is... {RoundCount}")
-    print(Pot.initPot())
+    print(f"\nround count is... {RoundCount}")
+    print(f"{Pot.initPot()}\n")
