@@ -1,5 +1,15 @@
 Pot.py needs to be extended to hold everyones balance
+SOLVED
 
 Pot needs to be reset and set a the end and beginning of each round
+SOLVED
 
 main.py needs to have continuePlaying fully functional
+SOLVED
+
+Turn.py needs to inlcude case in which if starting player is still winning by finalRoll(), finalRoll() does not get called 
+SOLVED
+
+Condition to fullRound() to ensure everyone has appropriate currency to continue continue playing 
+
+Need to subtract currency from player accounts when playing
