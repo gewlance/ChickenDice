@@ -1,10 +1,14 @@
 import random
+from BackGround import Pot
 
 RoundCount = 1
 allTheSame = True
 EvensBoosted = False
 OddsBoosted = False
 tossResults = []
+
+def getRoundCount():
+    return RoundCount
 
 def toss():
     x = random.randint(0,1)
@@ -13,7 +17,7 @@ def toss():
 def tossFor(x):
     for i in range(x):
         y = toss()
-        print(f'toss {i+1} is... {y}')
+        #print(f'toss {i+1} is... {y}') toss verifivation
         tossResults.append(y)
 
 def scan():
@@ -32,10 +36,10 @@ def boosted():
         total += tossResults[i]
     if total//2 == 1:
         OddsBoosted == True
-        print("Odd")
+        print("Odds Boosted")
     else:
         EvensBoosted == True
-        print("Even")
+        print("Evens Boosted")
         
 def firstToss():
     tossFor(3)
@@ -43,7 +47,8 @@ def firstToss():
     global RoundCount 
      
     if allTheSame == False:
-        boosted()#odds or even()
+        boosted()
+        #print(f'pot size is... {Pot.StartPot(RoundCount)}')
     else:
         preGameToss()
 
@@ -56,3 +61,4 @@ def preGameToss():
         RoundCount += 1
         scan()
     print(f"round count is... {RoundCount}")
+    print(Pot.initPot())
