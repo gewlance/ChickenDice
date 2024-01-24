@@ -1,0 +1,12 @@
+1. Ask number of players -- main.py
+
+2.  generatePlayers() -- players.py
+    getPlayers()
+    getPlayerMoney()
+
+3. While continuePlaying == True -- main.py
+    firstToss()
+    pot = startPot()        #implement into Toss()
+    playerTurn()            #code for numOfRounds = PlayerCount + 1, returns winning player
+    numberOfHits()
+    continuePlaying = continuePrompt()
