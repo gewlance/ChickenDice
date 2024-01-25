@@ -8,6 +8,6 @@ continuePlaying = True
 Players.initPlayers()
 
 while continuePlaying == True: 
-    CoinToss.firstToss() #move into round
+    #CoinToss.firstToss() #move into round
     Round.fullRound()
     continuePlaying = Turns.anotherFullRound()

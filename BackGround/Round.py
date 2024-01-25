@@ -6,6 +6,9 @@ from BackGround import Pot
 TurnCount = 0
 StartingTurn = 0
 
+def getStartingTurn():
+    return StartingTurn
+
 def getCurrentPlayer():
     pCount = Players.getPlayerCount()
     x = TurnCount % pCount
@@ -15,9 +18,9 @@ def round():
     global TurnCount
     global StartingTurn
     CoinToss.firstToss()
-    Pot.initPot()
-    Turns.startRoll()
-    #create Pot start and clear functions for every round
+    print(Pot.initPot())        #
+    
+    Turns.startRoll()    # edit these
     TurnCount += 1
     pCount = Players.getPlayerCount()
 
@@ -28,14 +31,16 @@ def round():
     print(Turns.lastRoll())
 
     Players.awardPlayer(Turns.getWinner(),Pot.GetPot())
-    
     Players.printPlayers()
     Players.printPlayerBank()
-    Pot.resetPot()
+    
     print(f"BIG WINNER IS... {Players.getPlayer(Turns.getWinner())}")
     #print(f"rC is ...{Turns.getRC()}")
     Turns.reset()
-    
+    Pot.resetPot()
+    CoinToss.resetToss()
+    CoinToss.resetAllTheSame()
+    CoinToss.resetRoundCount()
     StartingTurn += 1
     TurnCount = StartingTurn
 

@@ -10,6 +10,11 @@ SOLVED
 Turn.py needs to inlcude case in which if starting player is still winning by finalRoll(), finalRoll() does not get called 
 SOLVED
 
+Need to subtract currency from player accounts when playing
+SOLVED
+
 Condition to fullRound() to ensure everyone has appropriate currency to continue continue playing 
 
-Need to subtract currency from player accounts when playing
+Condition to Turns() that ensures they have enough currency to challenge if decision() = True && hasMoney() = True
+
+Need to boost rolls appropriately

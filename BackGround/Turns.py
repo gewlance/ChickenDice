@@ -49,6 +49,8 @@ def Turn():
     global isBeat
     roundCount()
     if decision() == True:
+        thisPlayer = rC % Players.getPlayerCount() - 1
+        Players.challengePayment(thisPlayer, 5)
         Pot.addPot(5)
         thisRoll = random.randint(1,20)
         if thisRoll > highestRoll:
@@ -73,6 +75,8 @@ def lastRoll():
     if isBeat == False:
         return(f"{Round.getCurrentPlayer()} remains undefeated!")
     elif finalDecision() == True:
+        thisPlayer = Players.getPlayerCount() - 1
+        Players.challengePayment(thisPlayer,10)
         Pot.addPot(10)
         thisRoll = random.randint(1,20)
         if thisRoll > highestRoll:
