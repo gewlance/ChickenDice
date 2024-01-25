@@ -23,21 +23,19 @@ def StartPot(x):
     if x == 1:
         for i in range(Players.getPlayerCount()):
             if i != Round.getStartingTurn():
-                #print(f"charging... {Players.getPlayer(i)}")
                 Players.challengePayment(i,5)
-                #charge func()
             else:
                 continue
-        return 15
+        return 5 * (Players.getPlayerCount()-1)
     if x == 2:
         for i in range(Players.getPlayerCount()):
             Players.challengePayment(i,10)
-        return 40 + StartPot(x-1)
+        return 10 * Players.getPlayerCount() + StartPot(x-1)
     else:
         for i in range(Players.getPlayerCount()):
             Players.challengePayment(i,25)
-        return 100 + StartPot(x-1)
-    
+        return 25 * Players.getPlayerCount() + StartPot(x-1)
+
 def initPot():
     addPot(StartPot(CoinToss.getRoundCount()))
     return (f'pot is ... {GetPot()}')

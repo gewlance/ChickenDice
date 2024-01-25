@@ -18,9 +18,9 @@ def round():
     global TurnCount
     global StartingTurn
     CoinToss.firstToss()
-    print(Pot.initPot())        #
+    print(Pot.initPot())
     
-    Turns.startRoll()    # edit these
+    Turns.startRoll()
     TurnCount += 1
     pCount = Players.getPlayerCount()
 
@@ -31,11 +31,11 @@ def round():
     print(Turns.lastRoll())
 
     Players.awardPlayer(Turns.getWinner(),Pot.GetPot())
+    print(f"BIG WINNER IS... {Players.getPlayer(Turns.getWinner())}")
+    
     Players.printPlayers()
     Players.printPlayerBank()
     
-    print(f"BIG WINNER IS... {Players.getPlayer(Turns.getWinner())}")
-    #print(f"rC is ...{Turns.getRC()}")
     Turns.reset()
     Pot.resetPot()
     CoinToss.resetToss()
@@ -54,5 +54,3 @@ def fullRound():
         round()
     Turns.setLastRound()
     round()
-
-#def win():

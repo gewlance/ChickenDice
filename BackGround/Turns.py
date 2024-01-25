@@ -75,13 +75,13 @@ def lastRoll():
     if isBeat == False:
         return(f"{Round.getCurrentPlayer()} remains undefeated!")
     elif finalDecision() == True:
-        thisPlayer = Players.getPlayerCount() - 1
+        thisPlayer = Round.getStartingTurn()
         Players.challengePayment(thisPlayer,10)
         Pot.addPot(10)
         thisRoll = random.randint(1,20)
         if thisRoll > highestRoll:
             highestRoll = thisRoll
-            winner = Players.getPlayerCount() - 1
+            winner = Round.getStartingTurn()
             return (f"you rolled a {thisRoll}! You win the Pot!\n")
         elif thisRoll == highestRoll:
             return ("enter tie function here\n")

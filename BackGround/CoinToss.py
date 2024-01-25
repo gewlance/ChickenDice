@@ -29,9 +29,7 @@ def toss():
 
 def tossFor(x):
     for i in range(x):
-        #print("tossing...")
         y = toss()
-        #print(f'toss {i+1} is... {y}') toss verifivation
         tossResults.append(y)
 
 def scan():
@@ -39,7 +37,6 @@ def scan():
 
     for x in tossResults:
         if x == firstFlip:
-            #print("condition met")
             continue
         else:
             global allTheSame
@@ -61,8 +58,6 @@ def firstToss():
     x -= 1
     tossFor(x)
     scan()
-    #print(f"toss results are... {tossResults}")
-    #print(f"all the same is... {allTheSame}")
     if allTheSame == False:
         boosted()
     else:
@@ -78,4 +73,3 @@ def preGameToss():
         RoundCount += 1
         scan()
     print(f"\nround count is... {RoundCount}")
-    #print(f"{Pot.initPot()}\n")
