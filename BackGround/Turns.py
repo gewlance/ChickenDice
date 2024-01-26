@@ -2,12 +2,18 @@ import random
 from BackGround import Round
 from BackGround import Pot
 from BackGround import Players
+from BackGround import CoinToss
 
 highestRoll = 0
 winner = 0
 rC = 0
 isBeat = False
 lastRound = False
+naturalOrBoosted = "natural"
+
+def resetNaturalOrBoosted():
+    global naturalOrBoosted
+    naturalOrBoosted = "natural"
 
 def reset():
     global winner
@@ -34,14 +40,16 @@ def startRoll():
     global isBeat
     isBeat = False
     roundCount()
-    thisRoll = random.randint(1,20)
+    #thisRoll = random.randint(1,20)
+    resetNaturalOrBoosted()
+    thisRoll = roll()
     highestRoll = thisRoll
     if lastRound == True:
         winner = Players.getPlayerCount() - 1
     else:
         winner = rC % Players.getPlayerCount() - 1
     thisPlayer = Round.getCurrentPlayer()
-    print(f"\n{thisPlayer} goes for free... his roll is {thisRoll}\n")
+    print(f"\n{thisPlayer} goes for free... his roll is a {naturalOrBoosted} {thisRoll}\n")
 
 def Turn():
     global highestRoll
@@ -52,17 +60,19 @@ def Turn():
         thisPlayer = rC % Players.getPlayerCount() - 1
         Players.challengePayment(thisPlayer, 5)
         Pot.addPot(5)
-        thisRoll = random.randint(1,20)
+        #thisRoll = random.randint(1,20)
+        resetNaturalOrBoosted()
+        thisRoll = roll()
         if thisRoll > highestRoll:
             highestRoll = thisRoll
             winner =  rC % Players.getPlayerCount() - 1
             isBeat = True
             #win()
-            return (f"you rolled a {thisRoll}! Cross your fingers!\n")
+            return (f"you rolled a {naturalOrBoosted} {thisRoll}! Cross your fingers!\n")
         elif thisRoll == highestRoll:
             return ("enter tie function here\n")
         else: 
-            return (f"you rolled a {thisRoll}, better luck next time\n")
+            return (f"you rolled a {naturalOrBoosted} {thisRoll}, better luck next time\n")
     else:
         return ("passed\n")
     
@@ -78,16 +88,19 @@ def lastRoll():
         thisPlayer = Round.getStartingTurn()
         Players.challengePayment(thisPlayer,10)
         Pot.addPot(10)
-        thisRoll = random.randint(1,20)
+        #thisRoll = random.randint(1,20)
+        resetNaturalOrBoosted()
+        thisRoll = roll()
         if thisRoll > highestRoll:
             highestRoll = thisRoll
             winner = Round.getStartingTurn()
-            return (f"you rolled a {thisRoll}! You win the Pot!\n")
+            return (f"you rolled a {naturalOrBoosted} {thisRoll}! You win the Pot!\n")
         elif thisRoll == highestRoll:
             return ("enter tie function here\n")
         else:
-            return (f"you rolled a {thisRoll}, better luck next time\n")
+            return (f"you rolled a {naturalOrBoosted} {thisRoll}, better luck next time\n")
     else:
+        #if tie breaker exists
         return ("passed\n")
     
 def decision():
@@ -118,3 +131,17 @@ def anotherFullRound():
         return True
     else:
         return False
+    
+def roll():
+    global naturalOrBoosted
+
+    newRoll = random.randint(1,20)
+    
+    if (CoinToss.getBoosted() == 1) & (newRoll % 2 == 1):
+        naturalOrBoosted = "boosted"
+        return newRoll + 1
+    elif (CoinToss.getBoosted() == 0) & (newRoll % 2 == 0):
+        naturalOrBoosted = "boosted"
+        return newRoll + 1
+    else:
+        return newRoll

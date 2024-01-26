@@ -31,16 +31,17 @@ def round():
     print(Turns.lastRoll())
 
     Players.awardPlayer(Turns.getWinner(),Pot.GetPot())
-    print(f"BIG WINNER IS... {Players.getPlayer(Turns.getWinner())}")
+    print(f"{Players.getPlayer(Turns.getWinner())} wins {Pot.GetPot()}!")
     
     Players.printPlayers()
     Players.printPlayerBank()
-    
+
     Turns.reset()
     Pot.resetPot()
     CoinToss.resetToss()
     CoinToss.resetAllTheSame()
     CoinToss.resetRoundCount()
+    CoinToss.resetBoosted()
     StartingTurn += 1
     TurnCount = StartingTurn
 

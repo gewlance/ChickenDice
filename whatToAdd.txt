@@ -18,3 +18,4 @@ Condition to fullRound() to ensure everyone has appropriate currency to continue
 Condition to Turns() that ensures they have enough currency to challenge if decision() = True && hasMoney() = True
 
 Need to boost rolls appropriately
+SOLVED
