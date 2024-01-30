@@ -19,3 +19,9 @@ Condition to Turns() that ensures they have enough currency to challenge if deci
 
 Need to boost rolls appropriately
 SOLVED
+
+Reroll cannot tie itself
+
+Tie does not run if beat
+
+Charge players during tieBreaker function

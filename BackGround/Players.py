@@ -6,7 +6,11 @@ def getPlayerCount():
     return count
 
 def getPlayer(x):
-    return playerArray[x]
+    if x == -1:
+        y = getPlayerCount() - 1
+        return getPlayer(y)
+    else:
+        return playerArray[x]
 
 def awardPlayer(x,y):
     newAmount = y + playerBanks[x]

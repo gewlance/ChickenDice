@@ -10,6 +10,14 @@ rC = 0
 isBeat = False
 lastRound = False
 naturalOrBoosted = "natural"
+tiedPlayers = []
+alreadyTied = False
+
+def resetTie():
+    global tiedPlayers
+    global alreadyTied
+    tiedPlayers = []
+    alreadyTied = False
 
 def resetNaturalOrBoosted():
     global naturalOrBoosted
@@ -27,6 +35,13 @@ def resetLastRound():
 def setLastRound():
     global lastRound
     lastRound = True
+
+def getTie():
+    global tiedPlayers
+    if len(tiedPlayers)>0:
+        return True
+    else:
+        return False
 
 def getWinner():
     return winner
@@ -55,6 +70,7 @@ def Turn():
     global highestRoll
     global winner
     global isBeat
+    global alreadyTied
     roundCount()
     if decision() == True:
         thisPlayer = rC % Players.getPlayerCount() - 1
@@ -68,11 +84,20 @@ def Turn():
             winner =  rC % Players.getPlayerCount() - 1
             isBeat = True
             #win()
-            return (f"you rolled a {naturalOrBoosted} {thisRoll}! Cross your fingers!\n")
-        elif thisRoll == highestRoll:
-            return ("enter tie function here\n")
+            resetTie()
+            return (f"{Players.getPlayer(thisPlayer)} rolled a {naturalOrBoosted} {thisRoll}! Cross your fingers!\n")
+        elif thisRoll == highestRoll and alreadyTied == False:
+            tiedPlayers.append(getWinner())
+            tiedPlayers.append(thisPlayer)
+            print(f"{Players.getPlayer(thisPlayer)} rolled a {naturalOrBoosted} {thisRoll}! Tie!\n")
+            alreadyTied = True
+            return (f"Tied players are... {convertIndextoNames(tiedPlayers)}\n")
+        elif thisRoll == highestRoll and alreadyTied == True:
+            tiedPlayers.append(thisPlayer)
+            print(f"{Players.getPlayer(thisPlayer)} rolled a {naturalOrBoosted} {thisRoll}! Tie!!!!\n")
+            return (f"Tied players are... {convertIndextoNames(tiedPlayers)}\n")
         else: 
-            return (f"you rolled a {naturalOrBoosted} {thisRoll}, better luck next time\n")
+            return (f"{Players.getPlayer(thisPlayer)} rolled a {naturalOrBoosted} {thisRoll}, better luck next time\n")
     else:
         return ("passed\n")
     
@@ -80,27 +105,40 @@ def lastRoll():
     global highestRoll
     global winner
     global isBeat
+    global alreadyTied
     roundCount()
-    
-    if isBeat == False:
+    thisPlayer = Round.getStartingTurn()
+
+    if isBeat == False and tiedPlayers == []:
         return(f"{Round.getCurrentPlayer()} remains undefeated!")
+    #enter condition that prevents a tied started player from rerolling
+    
+    if tieContainsFirstPlayer() == True:
+        return (f"Starting player remains tied! Tied players are... {convertIndextoNames(tiedPlayers)}")
+
     elif finalDecision() == True:
         thisPlayer = Round.getStartingTurn()
         Players.challengePayment(thisPlayer,10)
         Pot.addPot(10)
-        #thisRoll = random.randint(1,20)
         resetNaturalOrBoosted()
         thisRoll = roll()
         if thisRoll > highestRoll:
             highestRoll = thisRoll
             winner = Round.getStartingTurn()
-            return (f"you rolled a {naturalOrBoosted} {thisRoll}! You win the Pot!\n")
-        elif thisRoll == highestRoll:
-            return ("enter tie function here\n")
+            return (f"{Players.getPlayer(thisPlayer)} rolled a {naturalOrBoosted} {thisRoll}! You win the Pot!\n")
+        elif thisRoll == highestRoll and alreadyTied == False:
+            tiedPlayers.append(getWinner())
+            tiedPlayers.append(thisPlayer)
+            print(f"{Players.getPlayer(thisPlayer)} rolled a {naturalOrBoosted} {thisRoll}! Tie!\n")
+            alreadyTied = True
+            return (f"Tied players are... {convertIndextoNames(tiedPlayers)}\n")
+        elif thisRoll == highestRoll and alreadyTied == True:
+            tiedPlayers.append(thisPlayer)
+            print(f"{Players.getPlayer(thisPlayer)} rolled a {naturalOrBoosted} {thisRoll}! Tie!!!\n")
+            return (f"Tied players are... {convertIndextoNames(tiedPlayers)}\n")
         else:
-            return (f"you rolled a {naturalOrBoosted} {thisRoll}, better luck next time\n")
+            return (f"{Players.getPlayer(thisPlayer)} rolled a {naturalOrBoosted} {thisRoll}, better luck next time\n")
     else:
-        #if tie breaker exists
         return ("passed\n")
     
 def decision():
@@ -135,8 +173,8 @@ def anotherFullRound():
 def roll():
     global naturalOrBoosted
 
-    newRoll = random.randint(1,20)
-    
+    newRoll = random.randint(1,5)
+
     if (CoinToss.getBoosted() == 1) & (newRoll % 2 == 1):
         naturalOrBoosted = "boosted"
         return newRoll + 1
@@ -145,3 +183,64 @@ def roll():
         return newRoll + 1
     else:
         return newRoll
+
+tieArray = []
+
+def recursiveTieBreaker(Array):#this code is golden. Do not touch this code that has been tweaked for hours
+    global winner
+    global tieArray
+    winner = 0
+    winningRoll = 0
+    
+    #print(f"tie array is... {tieArray}")   #keep for debug purposes
+
+    if len(Array) == 1: #base case, if tie array has one player left, designate that player as winner, exit function
+        print (f"{Players.getPlayer(Array[0])} won the tie breaker")
+        winner = Array[0]
+        return
+    
+    #reroll if tie remains
+    for i in range(len(Array)):
+        thisRoll = roll()
+
+        #print(f"this roll issssss a {thisRoll}")    #keep for debug/ audit purposes
+        
+        print(f"{Players.getPlayer(Array[i])} rolled a {naturalOrBoosted} {thisRoll} to try to break the tie")
+        if thisRoll > winningRoll:
+            winningRoll = thisRoll
+            winner = i
+            print(f"winning roll is...{winningRoll}\n")
+            tieArray = []               #reset tie array
+            tieArray = [Array[i]]       #add the index of that player into tie array
+        elif thisRoll == winningRoll:
+            #print("tietietie called")
+            tieArray.append(Array[i])   #if another tie occurs, add index of tying player into tie array
+        
+    #print(f"tie array is....{tieArray}")   #keep for debug purposes
+
+    if len(tieArray) > 1:   #if another tie occurs, special message shows 
+        print(f"Tied again! Rerolling for {convertIndextoNames(tieArray)}\n")
+        recursiveTieBreaker(tieArray)   #recursion called
+    elif len(tieArray) > 0: 
+        recursiveTieBreaker(tieArray)   #recursion called
+
+def tieContainsFirstPlayer():
+    for i in tiedPlayers:
+        if i == Round.getStartingTurn():
+            return True
+    else:
+        return False
+
+def convertIndextoNames(Array):
+    newList = []
+    
+    for x in (Array):
+        thisPlayer = Players.getPlayer(x)
+        newList.append(thisPlayer)
+
+    return newList
+
+def convertToSingleName(Array,index):
+    name = Players.getPlayer(Array[index])
+    
+    return name

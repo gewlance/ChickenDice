@@ -30,12 +30,17 @@ def round():
     
     print(Turns.lastRoll())
 
+    #call tie program here
+    if Turns.getTie() == True:
+        Turns.recursiveTieBreaker(Turns.tiedPlayers)
+
     Players.awardPlayer(Turns.getWinner(),Pot.GetPot())
     print(f"{Players.getPlayer(Turns.getWinner())} wins {Pot.GetPot()}!")
     
     Players.printPlayers()
     Players.printPlayerBank()
 
+    Turns.resetTie()
     Turns.reset()
     Pot.resetPot()
     CoinToss.resetToss()
