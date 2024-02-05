@@ -74,6 +74,8 @@ def Turn():
     roundCount()
     if decision() == True:
         thisPlayer = rC % Players.getPlayerCount() - 1
+        if hasMoney(thisPlayer,5) == False:
+            return (f"{Players.getPlayer(thisPlayer)} is broke! You cannot roll!\n")
         Players.challengePayment(thisPlayer, 5)
         Pot.addPot(5)
         #thisRoll = random.randint(1,20)
@@ -118,6 +120,8 @@ def lastRoll():
 
     elif finalDecision() == True:
         thisPlayer = Round.getStartingTurn()
+        if hasMoney(thisPlayer,10) == False:
+            return (f"{Players.getPlayer(thisPlayer)} is broke! You cannot roll!\n")
         Players.challengePayment(thisPlayer,10)
         Pot.addPot(10)
         resetNaturalOrBoosted()
@@ -202,7 +206,8 @@ def recursiveTieBreaker(Array):#this code is golden. Do not touch this code that
     #reroll if tie remains
     for i in range(len(Array)):
         thisRoll = roll()
-
+        Players.challengePayment((Array[i]),75)
+        Pot.addPot(75)
         #print(f"this roll issssss a {thisRoll}")    #keep for debug/ audit purposes
         
         print(f"{Players.getPlayer(Array[i])} rolled a {naturalOrBoosted} {thisRoll} to try to break the tie")
@@ -228,6 +233,12 @@ def tieContainsFirstPlayer():
     for i in tiedPlayers:
         if i == Round.getStartingTurn():
             return True
+    else:
+        return False
+
+def hasMoney(player,x):
+    if Players.playerBanks[player]>x:
+        return True
     else:
         return False
 

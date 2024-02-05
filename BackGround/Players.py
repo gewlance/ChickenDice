@@ -27,6 +27,7 @@ def printPlayerBank():
     print(playerBanks)
 
 def initPlayers():
+    global startAmount
     numOfPlayers = int(input("\nHow many players would you like to have? Must be an even number\t"))
     print()
     for i in range(numOfPlayers):

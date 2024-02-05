@@ -13,15 +13,22 @@ SOLVED
 Need to subtract currency from player accounts when playing
 SOLVED
 
-Condition to fullRound() to ensure everyone has appropriate currency to continue continue playing 
+Condition to fullRound() to ensure everyone has appropriate currency to continue continue playing
+OPTIONAL/LOW PROIORITY
 
 Condition to Turns() that ensures they have enough currency to challenge if decision() = True && hasMoney() = True
+SOLVED
 
 Need to boost rolls appropriately
 SOLVED
 
 Reroll cannot tie itself
+SOLVED
 
-Tie does not run if beat
+Tie does not run if tie roll is beat
+SOLVED
 
 Charge players during tieBreaker function
+SOLVED
+
+Can starting player re-roll if his first roll is tied? As of now, no
